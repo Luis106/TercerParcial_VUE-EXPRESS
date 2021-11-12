@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const todoShema = new mongoose.Schema(
     {
         ///Nombre del cleinte
-        NombreClie:{
+        Usuario:{
             type: String,
             required: true,
 
@@ -11,12 +11,12 @@ const todoShema = new mongoose.Schema(
         ///Tipo de servicio
         Servicio: {
             type: String,
-            default: "Común"
+            required: true,
         },
         //Hora
         Hora:{
             type: String,
-            required: true
+            default: " "
         }
     }
 )

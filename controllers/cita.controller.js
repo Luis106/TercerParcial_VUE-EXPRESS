@@ -1,20 +1,19 @@
 const { Cita } = require("../models/cita.model.js");
 
-const redis = require("redis")
-client  = redis.createClient();
-
 async function minsertOne(req,res){
 
-    const taskName = req.body.name;
-    const taskStatus = req.body.status;
+    const usuario = req.body.usuario;
+    const servicio = req.body.servicio;
+    const hora = req.body.hora;
     
-    if (taskName){
+    if (usuario && servicio){
 
        try {
 
             const newTask = await new Cita({
-                name: taskName,
-                status: taskStatus
+                usuario: usuario,
+                servicio: servicio,
+                hora: hora
             }).save();
             res.status(200).json({
                 savedTask:newTask
@@ -23,69 +22,40 @@ async function minsertOne(req,res){
        } catch (error) {
 
            console.log(error)
-           res.status(500).send("No se pudo guardar la tarea");
+           res.status(500).send("No se pudo guardar la cita");
        }
 
     }else{
         res.status(400).send("Falta de parametros");
     }
-
 }
 
 ///http://localhost:3000/Cita/listall?status=NEW
 async function mFindAll(req,res){
-    const taskStatus = req.query.status ? req.query.status : "NEW";
-
-    
-
-    console.log("SE HA BUSCADO POR: " + taskStatus)
-
-        var taskList
-        var taskIdentifier
-
     try {
 
-        taskIdentifier = `Task_${taskStatus}`
-        var r = await client.get(taskIdentifier)
-        console.log(r)
-        taskList =  JSON.parse(r)
+        const result =  await Cita.find({
+            ////Parametros
+        });
 
+        if (result && result.length > 0) {
 
-    } catch (error) {
-        console.log( error);
-    }
-  
+            res.status(200).json(result);
 
-    if(taskList){
-        console.log("Extraido de cache")
-        res.status(200).json(taskList);
+        }else{
 
-    }else{
-        console.log("Vacios")
+            res.status(200).json([]);
+        }
 
-        try {
-            const result =  await Cita.find({
-                status: taskStatus
-            });
-
-            if (result && result.length > 0) {
-               console.log("Guardado en cache")
-                client.set(taskIdentifier, JSON.stringify(result));
-                
-                res.status(200).json(result);
-            
-            }else{
-                res.status(200).json([]);
-            }
         } catch (error) {
+
             console.log(error)
             res.status(500).json(
                 {message: error,
                 data: []
                 });
         }
-    }   
-}
+}  
 
 async function mDeleteOne(req,res){
 
@@ -139,6 +109,7 @@ async function mUpdateOne(req,res){
 
     }
 }
+
 module.exports= {
     minsertOne,
     mFindAll,
