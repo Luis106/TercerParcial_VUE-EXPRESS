@@ -17,6 +17,10 @@ const todoShema = new mongoose.Schema(
         Hora:{
             type: String,
             default: " "
+        },
+        Ubicacion:{
+            type: String,
+            default: " "
         }
     }
 )

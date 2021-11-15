@@ -1,4 +1,3 @@
-
 ///Requerimeintos
 var createError = require('http-errors');
 var express = require('express');
@@ -7,13 +6,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
 
+
 ///Rutas
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usuarioRoutes = require('./routes/usuario.routes.js');
 var Taskrouter = require("./routes/task.routes.js");
 var citaRouter = require("./routes/cita.routes.js");
 var authRouter = require("./routes/auth.routes.js");
 var servicioRouter = require("./routes/servicio.routes.js");
+
+
 
 
 var app = express();
@@ -44,8 +46,6 @@ try {
   
 }
 
-   
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -57,8 +57,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/', indexRouter);
+app.use('/Usuario', usuarioRoutes);
 app.use("/auth",authRouter)
 app.use("/Task", Taskrouter)
 app.use("/Cita", citaRouter)

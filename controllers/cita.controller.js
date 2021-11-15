@@ -5,15 +5,18 @@ async function minsertOne(req,res){
     const usuario = req.body.usuario;
     const servicio = req.body.servicio;
     const hora = req.body.hora;
+    const Ubicacion = req.body.ubicacion;
     
     if (usuario && servicio){
 
        try {
 
             const newTask = await new Cita({
-                usuario: usuario,
-                servicio: servicio,
-                hora: hora
+                Usuario: usuario,
+                Servicio: servicio,
+                Hora: hora,
+                Ubicacion: Ubicacion
+
             }).save();
             res.status(200).json({
                 savedTask:newTask
@@ -59,15 +62,15 @@ async function mFindAll(req,res){
 
 async function mDeleteOne(req,res){
 
-    const taskId = req.body._id;
-    console.log(taskId)
+    const id = req.body._id;
     
-    if (taskId){
+    
+    if (id){
 
        try {
 
             await Cita.deleteOne({
-                _id: taskId,
+                _id: id,
             }); 
             res.status(200).json({
                 msg: "Registro eliminado"
@@ -76,25 +79,35 @@ async function mDeleteOne(req,res){
        } catch (error) {
 
            console.log(error)
-           res.status(500).send("No se pudo eliminar la tarea");
+           res.status(500).send("No se pudo eliminar la cita");
        }
 
     }
 }
 
 async function mUpdateOne(req,res){
-    const taskId = req.body._id;
-    const taskStatus = req.body.status;
+    const id = req.body._id;
     
-    if (taskId){
+    const usuario = req.body.usuario;
+    const servicio = req.body.servicio;
+    const hora = req.body.hora;
+    const Ubicacion = req.body.ubicacion;
+    
+    if (id){
 
        try {
 
             await Cita.updateOne({
-                _id: taskId,
+                _id: id,
             }, {
                 $set:{
-                    status: taskStatus
+                    Usuario: usuario,
+                    Servicio: servicio,
+                    Hora: hora,
+                    Ubicacion: Ubicacion
+
+
+
                 }
             }); 
             res.status(200).json({
