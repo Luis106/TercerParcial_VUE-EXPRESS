@@ -4,21 +4,24 @@ const crypto = require("crypto-js");
 const { Usuario } = require("../models/usuario.model.js");
 
 
-//laMejorMonja69 -SOS
 
-///http://localhost:3000/Cita/listall?status=NEW
+//431a9707c7825d610ac589f9fb102b13011bf0d1e26e5f910ccceec4aa2fc5325e4dd7309ec8a3d2640a8c17f6bcce2d8209c1c7ac1269287f08a7cdb177c1fa
+//431a9707c7825d610ac589f9fb102b13011bf0d1e26e5f910ccceec4aa2fc5325e4dd7309ec8a3d2640a8c17f6bcce2d8209c1c7ac1269287f08a7cdb177c1fa
+
 async function mFind(req,res){
 
     const Nombre = req.body.Nombre;
     const Contraseña = req.body.Contraseña
 
+    console.log(Nombre + " Cons")
     console.log(Contraseña + " Cons")
+    
     var Cons = crypto.SHA3(Contraseña).toString()
     console.log(Cons)
 
     try {
 
-        const result =  await Usuario.find({
+        const result =  await Usuario.findOne({
            Usuario: Nombre,
            Contraseña: Cons
         },{_id:0, Contraseña: 0});
@@ -29,7 +32,7 @@ async function mFind(req,res){
 
         }else{
 
-            res.status(200).send("Constraseña o usuario incorrecto")
+            res.status(200).send(result)
         }
 
         } catch (error) {

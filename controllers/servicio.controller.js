@@ -117,16 +117,16 @@ async function mUpdateOne(req,res){
 
        try {
 
-            await Servicio.updateOne({
+           const result =await Servicio.findOneAndUpdate({
                 _id: Id,
             }, {
                 $set:{
                     name: ServName
                 }
-            }); 
+            },{new: true}); 
             cachecambios = true;
             res.status(200).json({
-                msg: "Servicio actualizado"
+                result
             });
 
        } catch (error) {
