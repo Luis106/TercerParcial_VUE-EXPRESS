@@ -6,7 +6,7 @@ async function minsertOne(req,res){
     const servicio = req.body.servicio;
     const hora = req.body.hora;
     const Ubicacion = req.body.ubicacion;
-    
+    sleep(1000)
     if (usuario && servicio){
 
        try {
