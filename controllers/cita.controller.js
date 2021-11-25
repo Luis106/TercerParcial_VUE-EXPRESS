@@ -105,9 +105,6 @@ async function mUpdateOne(req,res){
                     Servicio: servicio,
                     Hora: hora,
                     Ubicacion: Ubicacion
-
-
-
                 }
             }); 
             res.status(200).json({
